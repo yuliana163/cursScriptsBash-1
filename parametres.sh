@@ -3,7 +3,7 @@
 #veurem com funcionen els paràmetres
 PARAMETRE0=${0}
 #${0} ens indica el nom de l'executable
-echo "el parametre 0 és ${0}" 
+echo "el parametre 0 és ${0}"
 
 #${1} és el primer paràmetre posicional
 echo "el paramtre 1 és ${1}"
