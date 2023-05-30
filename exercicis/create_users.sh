@@ -4,9 +4,17 @@ function usage(){
 
 #Indicam les instruccions del script
 echo "INSTRUCCIONS: ./create_users.sh USER_NAME [USER_NAME ... ]"
+echo "Executar com a root"
 exit 1
 
 }
+
+#comprovar que spu rooot
+
+if [ ${UID} -ne 0 ]
+then
+usage
+fi
 
 #El nom del script que s'executa
 echo "Nom del script ${0}"
@@ -29,10 +37,6 @@ then
 
 fi
 
-#Afegir tots els paràmetres dins una variable i mostrar-la per pantalla.
-TOTS_ELS_PARAMETRES=${*}
-echo "TOTS ELS PARAMETRES: ${TOTS_ELS_PARAMETRES}"
-
 #Desplaçar els parametres a l'esquerra
 #shift
 #Tornar a mostrar els parametres
@@ -48,6 +52,30 @@ do
     
     PASSWORD=$(date +%s%N | sha256sum | head -c10)
     echo "${USER_NAME}:${PASSWORD}"
+
+#CREAR L'USUARI amb el HOME
+
+useradd -m ${USER_NAME} 
+
+#COMPROVAM SI S'HA CREAT BÉ
+if [[ ${?} -ne 0 ]]
+then
+    echo "Errada creat l'usuari"
+exit 1
+fi
+
+#CANVIAM PASSWORD,
+echo "${USER_NAME}:${PASSWORD}" | chpasswd
+
+#comprovam si el canvi de password ha anat bé.
+
+if [[ ${?} -ne 0 ]]
+then
+    echo "Errada canviant password"
+exit 1
+fi
+
+#FER QUE L'USARI HAGI DE CANVIAR EL PASSWORD AL PRIMER LOGI
 
 done
 

@@ -4,7 +4,7 @@ useradd -m -c "${COMMENTS}" ${USER_NAME} &> /dev/null
 
 if [[ ${?} -ne 0 ]]
 then
-    echo "Errada creat l'usari"
+    echo "Errada creat l'usauri"
     exit 1
 fi
 echo "${USER_NAME}:${PASSWORD}" | chpasswd
